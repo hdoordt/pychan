@@ -1,0 +1,23 @@
+[package]
+name = "pychan"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "pychan"
+crate-type = ["cdylib", "rlib"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+crossbeam-queue = "0.3.11"
+crossbeam-utils = "0.8.19"
+futures = "0.3.30"
+pin-project = "1.1.5"
+
+[dependencies.pyo3]
+version = "0.21.0-beta.0"
+features = ["experimental-async"]
+
+[features]
+extension-module = ["pyo3/extension-module"]
