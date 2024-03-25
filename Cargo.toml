@@ -2,6 +2,15 @@
 name = "pychan"
 version = "0.1.0"
 edition = "2021"
+authors = ["Henk Oordt <hd@oordt.dev>"]
+description = "A collection of channels for sending around items of type `pyo3::Py<T>`"
+repository = "https://github.com/hdoordt/pychan"
+license = "MIT"
+keywords = ["python", "pyo3", "channel", "async"]
+categories = ["asynchronous", "development-tools::ffi"]
+exclude = ["*.py", "pyproject.toml"]
+readme = "README.md"
+
 
 [lib]
 name = "pychan"
@@ -17,7 +26,4 @@ pin-project = "1.1.5"
 
 [dependencies.pyo3]
 version = "0.21.0-beta.0"
-features = ["experimental-async"]
-
-[features]
-extension-module = ["pyo3/extension-module"]
+features = ["experimental-async", "extension-module"]
