@@ -17,7 +17,6 @@ use pyo3::{
     types::PyBytes,
 };
 
-#[cfg(feature = "extension-module")]
 mod py;
 pub mod reader;
 
@@ -44,9 +43,9 @@ struct PyChanInner<T> {
 }
 
 impl<T> PyChanInner<T> {
-    fn new() -> Self {
+    fn new(capacity: usize) -> Self {
         Self {
-            buf: ArrayQueue::new(16),
+            buf: ArrayQueue::new(capacity),
             closed: AtomicBool::new(false),
             waker: AtomicWaker::new(),
         }
@@ -85,7 +84,6 @@ impl<T> Sink<Py<T>> for PySender<T> {
     }
 
     fn start_send(self: Pin<&mut Self>, item: Py<T>) -> Result<(), Self::Error> {
-        
         let res = self.inner.buf.push(item).map_err(|_| Error::QueueFull);
         self.inner.waker.wake();
         res
@@ -137,8 +135,8 @@ impl<T> Stream for PyReceiver<T> {
     }
 }
 
-fn channel<T>() -> (PySender<T>, PyReceiver<T>) {
-    let inner = PyChanInner::new();
+pub fn channel<T>(capacity: usize) -> (PySender<T>, PyReceiver<T>) {
+    let inner = PyChanInner::new(capacity);
     let inner = Arc::new(inner);
     let reader = PyReceiver {
         inner: inner.clone(),
@@ -220,8 +218,8 @@ macro_rules! specialized_pychan {
                 }
             }
 
-            pub fn channel() -> ($sender_name, $receiver_name) {
-                let (writer, reader) = crate::channel();
+            pub fn channel(capacity: usize) -> ($sender_name, $receiver_name) {
+                let (writer, reader) = crate::channel(capacity);
 
                 let writer = $sender_name { writer };
 

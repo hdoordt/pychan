@@ -4,8 +4,8 @@ use pyo3::{prelude::*, types::PyBytes};
 use crate::{py_bytes::PyBytesSender, reader::PyBytesReader};
 
 #[pyfunction]
-fn bytes_chan() -> (PyBytesSender, PyBytesReader) {
-    let (sender, receiver) = crate::py_bytes::channel();
+fn bytes_chan(capacity: usize) -> (PyBytesSender, PyBytesReader) {
+    let (sender, receiver) = crate::py_bytes::channel(capacity);
     let reader = receiver.into_reader();
     (sender, reader)
 }

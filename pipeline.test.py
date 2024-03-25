@@ -24,7 +24,7 @@ async def poll_reader(reader):
 
 
 async def main():
-    writer, reader = pychan.bytes_chan()
+    writer, reader = pychan.bytes_chan(16)
     test1 = asyncio.create_task(pipe_bytes(writer))
     test2 = asyncio.create_task(poll_reader(reader))
 
