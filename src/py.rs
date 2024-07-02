@@ -38,5 +38,6 @@ fn pychan(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(chan_send, m)?)?;
     m.add_function(wrap_pyfunction!(chan_read, m)?)?;
     m.add_function(wrap_pyfunction!(sender_close, m)?)?;
+    m.add_class::<PyBytesSender>()?;
     Ok(())
 }

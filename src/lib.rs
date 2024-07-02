@@ -20,8 +20,8 @@ use pyo3::{
 mod py;
 pub mod reader;
 
-#[derive(Debug)]
-#[pyclass]
+#[derive(Debug, PartialEq)]
+#[pyclass(eq, eq_int)]
 pub enum Error {
     QueueFull,
     Closed,
@@ -102,7 +102,6 @@ impl<T> Sink<Py<T>> for PySender<T> {
 }
 
 pub struct PyReceiver<T> {
-    
     inner: Arc<PyChanInner<T>>,
 }
 

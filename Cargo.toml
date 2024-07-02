@@ -25,5 +25,5 @@ futures = "0.3.30"
 pin-project = "1.1.5"
 
 [dependencies.pyo3]
-version = "0.21.0-beta.0"
+version = "0.22"
 features = ["experimental-async", "extension-module"]
